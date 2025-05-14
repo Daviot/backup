@@ -1,3 +1,5 @@
+import {command} from "./command";
+
 let configured = false;
 export async function notify(message) {
 	if (!configured) {
