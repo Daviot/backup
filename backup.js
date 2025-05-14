@@ -15,6 +15,14 @@ const BKG_CONFIG_FILE = "backup.cnf.js";
 const SNAPSHOT_FILE = ".backup.snapshot";
 
 (async () => {
+	// log errors
+	process.on("uncaughtException", async (error) => {
+		console.log(error);
+	});
+	process.on("unhandledRejection", async (reason) => {
+		console.log(reason);
+	});
+
 	let dryRun = false;
 	let init = false;
 	for (const arg of process.argv) {
