@@ -1,16 +1,10 @@
 import {command} from "./command.js";
 
-let configured = false;
+// export so that the notifications could be sent
+// @see https://askubuntu.com/questions/978382/how-can-i-show-notify-send-messages-triggered-by-crontab
 export async function notify(message) {
-	if (!configured) {
-		configured = true;
-		// export so that the notifications could be sent
-		// @see https://askubuntu.com/questions/978382/how-can-i-show-notify-send-messages-triggered-by-crontab
-		await command(
-			`export $(xargs -0 -a "/proc/$(pgrep gnome-session -n -U $UID)/environ") 2>/dev/null`,
-			false,
-		);
-	}
+	const configureCmd = `export $(xargs -0 -a "/proc/$(/usr/bin/pgrep -n -U $UID gnome-session)/environ") 2>/dev/null;`;
+	const notifyCmd = `/usr/bin/notify-send "backup" "${message}" --app-name=backup;`;
+	await command(`${configureCmd}${notifyCmd}`, false);
 	console.log(message);
-	await command(`notify-send "backup" "${message}" --app-name=backup`, false);
 }
