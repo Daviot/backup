@@ -3,5 +3,6 @@
   "private": false,
   "author": "Daviot",
   "description": "Backup script",
-  "main": "backup.js"
+  "main": "backup.js",
+  "type": "module"
 }

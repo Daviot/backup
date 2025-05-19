@@ -1,4 +1,4 @@
-import {command} from "./command";
+import {command} from "./command.js";
 
 let configured = false;
 export async function notify(message) {

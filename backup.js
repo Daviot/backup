@@ -6,10 +6,10 @@ import {
 	writeFileSync,
 } from "node:fs";
 import { join } from "node:path";
-import { readConfig } from "./config";
-import { command } from "./command";
-import { cleanupLock, createLock, isLocked, setDryRun } from "./lock";
-import { notify } from "./notify";
+import { readConfig } from "./config.js";
+import { command } from "./command.js";
+import { cleanupLock, createLock, isLocked, setDryRun } from "./lock.js";
+import { notify } from "./notify.js";
 
 const BKG_CONFIG_FILE = "backup.cnf.js";
 const SNAPSHOT_FILE = ".backup.snapshot";
