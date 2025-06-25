@@ -25,6 +25,9 @@ export function isLocked(unlock_after) {
 					"Backup already in progress.",
 					new Date(Number.parseInt(lastrun)).toISOString(),
 				);
+			} else {
+				cleanupLock();
+				return false; // lock expired, can run again
 			}
 		} catch (e) {
 			console.log("Backup lock file is invalid.", lastrun);
