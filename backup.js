@@ -1,5 +1,6 @@
 import {
 	existsSync,
+	mkdirSync,
 	readdirSync,
 	readFileSync,
 	unlinkSync,
@@ -137,12 +138,14 @@ const SNAPSHOT_FILE = ".backup.snapshot";
 	if (createSnapshot) {
 		const snapshotPath = join(target, "snapshots");
 		// create snapshot
-		console.log("Create snapshot");
 		const date = new Date();
 		const snapshotName = `${date.getFullYear()}${(date.getMonth() + 1)
 			.toString()
 			.padStart(2, "0")}${date.getDate().toString().padStart(2, "0")}.tar.gz`;
-		const snapshotCommand = `tar -czf ${join(snapshotPath, snapshotName)} ${targetPath}`;
+		const snapshotFullPath = join(snapshotPath, snapshotName);
+		console.log("Create snapshot", snapshotFullPath);
+		mkdirSync(snapshotPath, { recursive: true });
+		const snapshotCommand = `tar -czf ${snapshotFullPath} ${targetPath}`;
 		await command(snapshotCommand, dryRun);
 		// remove old snapshots
 		if (existsSync(snapshotPath)) {
