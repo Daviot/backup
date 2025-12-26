@@ -1,5 +1,6 @@
 import { existsSync, unlinkSync, writeFileSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+import { warning } from "./log.js";
 
 const LOCK_FILE = ".backup.lock";
 let dryRun = false;
@@ -21,7 +22,7 @@ export function isLocked(unlock_after) {
 	if (lastrun) {
 		try {
 			if (new Date().getTime() - Number.parseInt(lastrun) < unlock_after) {
-				console.log(
+				warning(
 					"Backup already in progress.",
 					new Date(Number.parseInt(lastrun)).toISOString(),
 				);
@@ -30,7 +31,7 @@ export function isLocked(unlock_after) {
 				return false; // lock expired, can run again
 			}
 		} catch (e) {
-			console.log("Backup lock file is invalid.", lastrun);
+			warning("Backup lock file is invalid.", lastrun);
 			console.error(e);
 		}
 	}
@@ -41,7 +42,7 @@ export function createLock() {
 	if (!dryRun) {
 		writeFileSync(getLockFile(), new Date().getTime().toString());
 	} else {
-		console.log("Dry run mode, nothing will be changed");
+		warning("Dry run mode, nothing will be changed");
 	}
 }
 

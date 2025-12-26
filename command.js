@@ -1,8 +1,9 @@
 import { exec } from "node:child_process";
+import { dim } from "./log.js";
 
 export async function command(command, dryRun = false) {
 	if (dryRun) {
-		console.log("$", command);
+		dim("$", command);
 	} else {
 		const result = await exec(command);
 		const waiter = new Promise((resolve) => {
