@@ -96,6 +96,9 @@ export default async () => {
 	console.log("Using target", target);
 
 	const targetPath = join(target, "current");
+	if (!existsSync(targetPath)) {
+		mkdirSync(targetPath, { recursive: true });
+	}
 	const targetConfig = await readConfig(join(target, BKG_CONFIG_FILE));
 	if (targetConfig) {
 		for (const [key, value] of Object.entries(targetConfig)) {
@@ -136,6 +139,9 @@ export default async () => {
 		console.log("Backup", include);
 		// copy the files to the current which is the root folder
 		const entryTarget = join(targetPath, include, "..");
+		if (!existsSync(entryTarget)) {
+			mkdirSync(entryTarget, { recursive: true });
+		}
 		const excludes = config?.exclude
 			?.filter(
 				(exclude) => !exclude.startsWith("/") || exclude.startsWith(include),
