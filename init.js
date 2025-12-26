@@ -11,6 +11,7 @@ import { readConfig } from "./config.js";
 import { command } from "./command.js";
 import { cleanupLock, createLock, isLocked, setDryRun } from "./lock.js";
 import { notify } from "./notify.js";
+import { dim, warning } from "./log.js";
 
 const BKG_CONFIG_FILE = "backup.cnf.js";
 const SNAPSHOT_FILE = ".backup.snapshot";
@@ -40,23 +41,32 @@ export default async () => {
 	const file = join(process.env.HOME, BKG_CONFIG_FILE);
 
 	if (init) {
-		console.log("Create the config file:", file);
-		console.log("Example:");
-		console.log(`export default {
-	targets: ["/absolute/path/to/the/destination"],
-	unlock_after: 60 * 60 * 1000 * 6, // 6 hours
-	includes: [
-		"~/.ssh",
-		"~/.config"
-	],
-	exclude: [
-		"node_modules",
-		"~/.ssh/known_hosts",
-	],
-	create_snapshot: true,
-	keep_snapshots: 3,
-};
-`);
+		console.log("1. Create the config file:", file);
+		dim('e.g. nano', file);
+		console.log("\nExample:");
+		dim(`export default {
+		targets: ["/absolute/path/to/the/destination"],
+		unlock_after: 60 * 60 * 1000 * 6, // 6 hours
+		includes: [
+			"~/.ssh",
+			"~/.config"
+		],
+		exclude: [
+			"node_modules",
+			"~/.ssh/known_hosts",
+		],
+		create_snapshot: true,
+		keep_snapshots: 3,
+	};
+		`);
+		console.log('2. Run the backup with, to verify it works:');
+		dim(`${process.argv[0]} ${process.argv[1]}`);
+
+		console.log('\n3. Prefered: add a cronjob to run the backup automatically:');
+		dim('e.g. crontab -e')
+		dim(`* * * * * ${process.argv[0]} ${process.argv[1]} >> ${process.env.HOME}/backup.log`);
+
+		warning('\nDone.');
 		process.exit(0);
 	}
 
