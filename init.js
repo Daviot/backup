@@ -48,6 +48,7 @@ export default async () => {
 		targets: ["/absolute/path/to/the/destination"],
 		unlock_after: 60 * 60 * 1000 * 6, // 6 hours
 		includes: [
+			"~/backup.cnf.js",
 			"~/.ssh",
 			"~/.config"
 		],
