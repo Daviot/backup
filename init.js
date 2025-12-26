@@ -64,7 +64,7 @@ export default async () => {
 
 		console.log('\n3. Prefered: add a cronjob to run the backup automatically:');
 		dim('e.g. crontab -e')
-		dim(`* * * * * ${process.argv[0]} ${process.argv[1]} >> ${process.env.HOME}/backup.log`);
+		dim(`0 * * * * ${process.argv[0]} ${process.argv[1]} >> ${process.env.HOME}/backup.log`);
 
 		warning('\nDone.');
 		process.exit(0);
